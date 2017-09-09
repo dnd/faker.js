@@ -189,4 +189,42 @@ describe("random.js", function () {
       assert.ok(hex.match(/^(0x)[0-9a-f]+$/i));
     })
   })
+
+  describe('alpha', function() {
+    var alpha = faker.random.alpha;
+
+    it('should generate single character when no additional argument was provided', function() {
+      assert.ok(alpha().length === 1);
+    })
+
+    it('should generate many random alpha characters', function() {
+      for(var i = 0; i < 100; i++) {
+        assert.ok(new RegExp(/^[a-z]{5}$/).test(alpha(5)));
+      }
+    })
+
+    it('should generate a random length string between min and max', function() {
+      options = {min: 5, max: 10}
+      for(var i = 0; i < 100; i++) {
+        var rndAlpha = alpha(options);
+        assert.ok(rndAlpha.length >= options.min);
+        assert.ok(rndAlpha.length <= options.max);
+      }
+    })
+
+    it('should default to a minimum length of 1 when given a maximum', function() {
+      options = {max: 1}
+      for(var i = 0; i < 10; i++) {
+        assert.ok(alpha(options).length === 1);
+      }
+    })
+
+    it('should default to a maximum length of 99 when given a minimum', function() {
+      options = {min: 99}
+      for(var i = 0; i < 10; i++) {
+        assert.ok(alpha(options).length === 99);
+      }
+    })
+  })
+
 });
